@@ -1,0 +1,75 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user of the application, either the teacher (admin) or a parent/student.",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The user's email address."
+        },
+        "role": {
+          "type": "string",
+          "enum": ["admin", "parent"],
+          "description": "The role of the user."
+        },
+        "name": {
+          "type": "string",
+          "description": "The user's display name."
+        }
+      },
+      "required": ["email", "role", "name"]
+    },
+    "Student": {
+      "title": "Student",
+      "description": "A student record containing their academic info and parent communication.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The student's full name."
+        },
+        "parentEmail": {
+          "type": "string",
+          "format": "email",
+          "description": "The email address of the parent, used for access control."
+        },
+        "results": {
+          "type": "string",
+          "description": "The student's results."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Notes and recommendations from the teacher."
+        },
+        "certificates": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of certificate URLs or text."
+        },
+        "parentReply": {
+          "type": "string",
+          "description": "Reply from the parent."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Creation timestamp."
+        }
+      },
+      "required": ["name", "parentEmail", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Stores user profiles and roles."
+    },
+    "/students/{studentId}": {
+      "schema": { "$ref": "#/entities/Student" },
+      "description": "Stores student records."
+    }
+  }
+}
